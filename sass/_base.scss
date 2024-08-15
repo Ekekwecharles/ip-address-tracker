@@ -1,0 +1,26 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+
+  @media screen and (max-width: 23.45em) {
+    font-size: 55%;
+  }
+}
+
+body {
+  font-family: "Rubik", sans-serif;
+  height: 100vh;
+}
+
+.container {
+  width: min(144rem, 100%);
+  margin: 0 auto;
+}

@@ -1,0 +1,62 @@
+.header {
+  text-align: center;
+  background: url("../img/pattern-bg-desktop.png");
+  background-size: cover;
+  background-position: center;
+  padding-top: 2rem;
+  height: 35vh;
+
+  &-title {
+    color: white;
+    // font-weight: 500;
+    font-size: 1.5rem;
+  }
+
+  .input-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+
+    @media screen and (max-width: 23.45em) {
+      width: 85%;
+      margin: 1rem auto 0;
+    }
+  }
+
+  input {
+    height: 3.5rem;
+    width: 40rem;
+    border: none;
+    border-radius: 10px 0 0 10px;
+    font-family: inherit;
+    padding-left: 1.5rem;
+    cursor: pointer;
+
+    @media screen and (max-width: 23.45em) {
+      width: 100%;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .icon-container {
+    height: 3.5rem;
+    width: 3.5rem;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 10px 10px 0;
+  }
+
+  .right-angle-icon {
+    height: 22px;
+    width: 22px;
+    fill: white;
+    cursor: pointer;
+  }
+}
+
+// at_bAboxEsFH3P2YCnwmxg3Ox1zAz8gn
