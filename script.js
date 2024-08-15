@@ -1,21 +1,22 @@
 import "core-js/stable";
+import axios from "axios";
 import "regenerator-runtime/runtime";
 
-const IPIFY_API_KEY = "at_bAboxEsFH3P2YCnwmxg3Ox1zAz8gn";
 const IPINFO_TOKEN = "eb225a03d2e44c";
+const IPIFY_API_KEY = "at_bAboxEsFH3P2YCnwmxg3Ox1zAz8gn";
 
-const ip = document.querySelector(".ip-address");
-const state = document.querySelector(".state");
-const country = document.querySelector(".country");
 const asn = document.querySelector(".asn");
-const timezone = document.querySelector(".timezone");
 const isp = document.querySelector(".isp");
-const btn = document.querySelector(".icon-container");
+const state = document.querySelector(".state");
 const input = document.querySelector(".input");
+const ip = document.querySelector(".ip-address");
+const country = document.querySelector(".country");
+const timezone = document.querySelector(".timezone");
+const btn = document.querySelector(".icon-container");
 
 let map;
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async () => {
   // Get the user's current position and initialize the map
   navigator.geolocation.getCurrentPosition(
     (position) => {
@@ -26,15 +27,16 @@ document.addEventListener("DOMContentLoaded", function () {
     () => alert("Please grant location access")
   );
 
-  // Get the user Public IpAddress and load his location details
-  fetch("https://api.ipify.org?format=json")
-    .then((response) => response.json())
-    .then((data) => {
-      loadLocationDetail(data.ip);
-    })
-    .catch((error) => {
-      console.log("Error:", error);
+  try {
+    // Get the user Public IpAddress and load his location details
+    const { data } = await axios({
+      method: "GET",
+      url: "https://api.ipify.org?format=json",
     });
+    await loadLocationDetail(data.ip);
+  } catch (error) {
+    console.error("Error getting user's public IP Address", error);
+  }
 });
 
 const ip_to_coords = function (ip) {
@@ -75,28 +77,27 @@ function initMap(lat, lng) {
   }
 }
 
-function loadLocationDetail(ipAddress) {
-  fetch(
-    `https://geo.ipify.org/api/v2/country?apiKey=${IPIFY_API_KEY}&ipAddress=${ipAddress}`
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.code === 422) {
-        alert(data.messages);
-      }
-      ip.textContent = data?.ip;
-      state.textContent = data?.location?.region;
-      country.textContent = data?.location?.country;
-      asn.textContent = data?.as.asn;
-      timezone.textContent = data?.location?.timezone;
-      isp.textContent = data?.isp;
-
-      ip_to_coords(data?.ip);
-    })
-    .catch((err) => {
-      console.log("Problems choke");
-      console.error(err);
+async function loadLocationDetail(ipAddress) {
+  try {
+    const { data } = await axios({
+      method: "GET",
+      url: `https://geo.ipify.org/api/v2/country?apiKey=${IPIFY_API_KEY}&ipAddress=${ipAddress}`,
     });
+    if (data.code === 422) {
+      alert(data.messages);
+      console.log(data.messages);
+    }
+    // Set locations details
+    ip.textContent = data?.ip;
+    state.textContent = data?.location?.region;
+    country.textContent = data?.location?.country;
+    asn.textContent = data?.as.asn;
+    timezone.textContent = data?.location?.timezone;
+    isp.textContent = data?.isp;
+    ip_to_coords(data?.ip);
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 btn.addEventListener("click", function () {
