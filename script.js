@@ -14,10 +14,27 @@ const btn = document.querySelector(".icon-container");
 const input = document.querySelector(".input");
 
 let map;
-let load_initial_detail = true;
 
 document.addEventListener("DOMContentLoaded", function () {
-  loadLocationDetail();
+  // Get the user's current position and initialize the map
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+      initMap(lat, lng);
+    },
+    () => alert("Please grant location access")
+  );
+
+  // Get the user Public IpAddress and load his location details
+  fetch("https://api.ipify.org?format=json")
+    .then((response) => response.json())
+    .then((data) => {
+      loadLocationDetail(data.ip);
+    })
+    .catch((error) => {
+      console.log("Error:", error);
+    });
 });
 
 const ip_to_coords = function (ip) {
@@ -58,23 +75,23 @@ function initMap(lat, lng) {
   }
 }
 
-function loadLocationDetail(ip = "") {
+function loadLocationDetail(ipAddress) {
   fetch(
-    `https://geo.ipify.org/api/v2/country?apiKey=${IPIFY_API_KEY}&ipAddress=${ip}`
+    `https://geo.ipify.org/api/v2/country?apiKey=${IPIFY_API_KEY}&ipAddress=${ipAddress}`
   )
     .then((response) => response.json())
     .then((data) => {
       if (data.code === 422) {
-        alert("Wrong IP: Please input a valid IP address");
+        alert(data.messages);
       }
-      ip.textContent = data.ip;
-      state.textContent = data.location.region;
-      country.textContent = data.location.country;
-      asn.textContent = data.as.asn;
-      timezone.textContent = data.location.timezone;
-      isp.textContent = data.isp;
+      ip.textContent = data?.ip;
+      state.textContent = data?.location?.region;
+      country.textContent = data?.location?.country;
+      asn.textContent = data?.as.asn;
+      timezone.textContent = data?.location?.timezone;
+      isp.textContent = data?.isp;
 
-      ip_to_coords(data.ip);
+      ip_to_coords(data?.ip);
     })
     .catch((err) => {
       console.log("Problems choke");
