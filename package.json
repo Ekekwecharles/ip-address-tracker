@@ -4,12 +4,14 @@
   "description": "![Design preview for the IP address tracker coding challenge](./design/desktop-preview.jpg)",
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html --dist-dir ./dist"
+    "build": "parcel build index.html --dist-dir ./dist",
+    "deploy": "gh-pages -d dist"
   },
   "author": "Snow",
   "license": "ISC",
   "devDependencies": {
     "@parcel/transformer-sass": "^2.12.0",
+    "gh-pages": "^6.1.1",
     "parcel": "^2.12.0"
   },
   "dependencies": {

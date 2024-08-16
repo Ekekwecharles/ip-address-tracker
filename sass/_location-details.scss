@@ -15,7 +15,7 @@
   padding: 2.5rem 0;
   z-index: 1;
 
-  @media screen and (max-width: 23.45em) {
+  @media screen and (max-width: 37.5em) {
     grid-template-columns: 1fr;
     width: 85%;
     height: max-content;
@@ -30,7 +30,7 @@
   & > *:not(:last-child) {
     border-right: 1px solid hsl(0, 0%, 59%);
 
-    @media screen and (max-width: 23.45em) {
+    @media screen and (max-width: 37.5em) {
       border: 0;
     }
   }
@@ -38,7 +38,7 @@
   & > :last-child {
     padding-right: 2.5rem;
 
-    @media screen and (max-width: 23.45em) {
+    @media screen and (max-width: 37.5em) {
       padding-right: 0;
     }
   }
@@ -46,7 +46,7 @@
   & > * {
     padding-left: 2.5rem;
 
-    @media screen and (max-width: 23.45em) {
+    @media screen and (max-width: 37.5em) {
       padding-left: 0;
     }
   }
